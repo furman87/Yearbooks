@@ -1,0 +1,28 @@
+namespace YearbookViewer.Models;
+
+public class YearbookInfo
+{
+    public int Year { get; set; }
+    public string Title { get; set; } = "";
+    public string DirectoryPath { get; set; } = "";
+    public List<YearbookPage> Pages { get; set; } = new();
+    public int TotalPages => Pages.Count;
+}
+
+public class YearbookPage
+{
+    public string FileName { get; set; } = "";
+    public string FilePath { get; set; } = "";
+    public int PageNumber { get; set; }
+    public long FileSize { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+    public string DisplayName => $"Page {PageNumber}";
+}
+
+public class YearbookGallery
+{
+    public List<YearbookInfo> Yearbooks { get; set; } = new();
+    public int TotalYearbooks => Yearbooks.Count;
+    public int TotalPages => Yearbooks.Sum(y => y.TotalPages);
+}

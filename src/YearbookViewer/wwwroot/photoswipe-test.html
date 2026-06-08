@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhotoSwipe Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@5.4.2/dist/photoswipe.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .photo-item {
+            display: block;
+            text-decoration: none;
+        }
+        .photo-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        .photo-item:hover img {
+            border-color: #007bff;
+        }
+        #status {
+            background: #f0f8ff;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>PhotoSwipe Test Page</h1>
+    <div id="status">Loading PhotoSwipe...</div>
+    
+    <div class="gallery" id="photo-gallery">
+        <!-- Test images using placeholder service -->
+        <a href="https://picsum.photos/1200/1600?random=1" 
+           data-pswp-width="1200" 
+           data-pswp-height="1600">
+            <img src="https://picsum.photos/200/150?random=1" alt="Test Image 1">
+        </a>
+        <a href="https://picsum.photos/1200/1600?random=2" 
+           data-pswp-width="1200" 
+           data-pswp-height="1600">
+            <img src="https://picsum.photos/200/150?random=2" alt="Test Image 2">
+        </a>
+        <a href="https://picsum.photos/1200/1600?random=3" 
+           data-pswp-width="1200" 
+           data-pswp-height="1600">
+            <img src="https://picsum.photos/200/150?random=3" alt="Test Image 3">
+        </a>
+        <a href="https://picsum.photos/1200/1600?random=4" 
+           data-pswp-width="1200" 
+           data-pswp-height="1600">
+            <img src="https://picsum.photos/200/150?random=4" alt="Test Image 4">
+        </a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/photoswipe@5.4.2/dist/photoswipe-lightbox.min.js"></script>
+    <script>
+        const statusDiv = document.getElementById('status');
+        
+        function log(message) {
+            console.log(message);
+            statusDiv.innerHTML += '<br>' + message;
+        }
+
+        // Test if PhotoSwipe is loaded
+        if (typeof PhotoSwipeLightbox === 'undefined') {
+            log('? ERROR: PhotoSwipeLightbox not loaded from CDN');
+        } else {
+            log('? PhotoSwipeLightbox loaded successfully');
+            
+            try {
+                // Initialize PhotoSwipe
+                const lightbox = new PhotoSwipeLightbox({
+                    gallery: '#photo-gallery',
+                    children: 'a',
+                    pswpModule: () => import('https://cdn.jsdelivr.net/npm/photoswipe@5.4.2/dist/photoswipe.esm.js'),
+                    
+                    maxZoomLevel: 4,
+                    initialZoomLevel: 'fit',
+                    wheelToZoom: true,
+                    tapAction: 'toggle-controls',
+                    doubleTapAction: 'zoom',
+                    arrowKeys: true
+                });
+
+                lightbox.on('beforeOpen', () => {
+                    log('?? PhotoSwipe opening...');
+                });
+
+                lightbox.on('afterInit', () => {
+                    log('? PhotoSwipe initialized and ready');
+                });
+
+                lightbox.init();
+                log('? PhotoSwipe lightbox initialized');
+                
+                // Add click handlers for debugging
+                document.querySelectorAll('#photo-gallery a').forEach((link, index) => {
+                    link.addEventListener('click', function(e) {
+                        log(`??? Click detected on image ${index + 1}: ${this.href}`);
+                    });
+                });
+                
+            } catch (error) {
+                log('? ERROR initializing PhotoSwipe: ' + error.message);
+            }
+        }
+
+        // Test direct click
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('#photo-gallery a')) {
+                log('?? Gallery link clicked');
+                e.preventDefault(); // Let PhotoSwipe handle it
+            }
+        });
+    </script>
+</body>
+</html>

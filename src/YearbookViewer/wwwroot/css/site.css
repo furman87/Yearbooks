@@ -1,0 +1,1028 @@
+html {
+    font-size: 14px;
+    height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem var(--fy-bg), 0 0 0 0.25rem var(--fy-purple-soft);
+}
+
+/* Yearbook Gallery Styles */
+.yearbook-card {
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.yearbook-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.yearbook-cover {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.yearbook-cover img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.yearbook-cover:hover img {
+    transform: scale(1.05);
+}
+
+.yearbook-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    padding: 1.5rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.yearbook-cover:hover .yearbook-overlay {
+    transform: translateY(0);
+}
+
+/* Photo Gallery Grid */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.photo-item {
+    position: relative;
+    aspect-ratio: 3/4;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.photo-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    pointer-events: none;
+    user-select: none;
+}
+
+.photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    backdrop-filter: blur(2px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.photo-item:hover .photo-overlay {
+    opacity: 1;
+    background: linear-gradient(transparent, rgba(0,0,0,0.9));
+}
+
+/* Cover lightbox styles */
+.cover-lightbox-item {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer !important;
+    user-select: none;
+}
+
+.cover-lightbox-item:hover {
+    text-decoration: none;
+}
+
+.cover-lightbox-item img {
+    transition: transform 0.3s ease;
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+}
+
+.cover-lightbox-item:hover img {
+    transform: scale(1.05);
+}
+
+.lightbox-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(2px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.cover-lightbox-item:hover .lightbox-overlay {
+    opacity: 1;
+}
+
+/* Cover lightbox button styles - Using buttons prevents any download behavior */
+.cover-lightbox-btn {
+    position: relative;
+    display: block;
+    width: 100%;
+    border: none;
+    background: none;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cover-lightbox-btn:focus {
+    outline: 2px solid var(--fy-purple-soft);
+    outline-offset: 2px;
+}
+
+.cover-lightbox-btn img {
+    transition: transform 0.3s ease;
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+    border: none;
+}
+
+.cover-lightbox-btn:hover img {
+    transform: scale(1.05);
+}
+
+.lightbox-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(2px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.cover-lightbox-btn:hover .lightbox-overlay {
+    opacity: 1;
+}
+
+/* Ensure no text selection on cover images */
+.cover-lightbox-btn,
+.cover-lightbox-btn * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
+/* Image modal styles */
+.image-modal {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.image-modal img {
+    transition: transform 0.3s ease;
+}
+
+.image-modal img:hover {
+    transform: scale(1.02);
+}
+
+/* Modal animations */
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes modalFadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.9); }
+}
+
+/* Spinner animation for loading indicators */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.spinner-animation {
+    animation: spin 1s linear infinite;
+}
+
+/* Loading Spinner */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(17, 16, 24, 0.86);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
+/* Year Navigation */
+.year-nav {
+    background: rgba(27, 23, 36, 0.96);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    border: 1px solid var(--fy-border);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+.year-badge {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    margin: 0.2rem;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    color: var(--fy-text);
+    background: var(--fy-surface-muted);
+    border: 1px solid transparent;
+}
+
+.year-badge:hover, .year-badge.active {
+    background: var(--fy-purple);
+    color: white;
+    transform: scale(1.05);
+}
+
+/* PhotoSwipe Enhancements for Maximum Size Display */
+.pswp__img {
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: contain;
+}
+
+/* Ensure fullscreen capability */
+.pswp--open {
+    z-index: 10000;
+}
+
+/* Custom counter styling */
+.pswp__counter {
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Loading spinner for large images */
+.pswp__preloader {
+    background: rgba(0,0,0,0.8);
+    border-radius: 50px;
+}
+
+/* Fullscreen optimizations */
+:-webkit-full-screen .pswp {
+    background: #000 !important;
+}
+
+:-moz-full-screen .pswp {
+    background: #000 !important;
+}
+
+:fullscreen .pswp {
+    background: #000 !important;
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .photo-item img, 
+    .photo-item-div img, 
+    .cover-lightbox-div img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: optimize-contrast;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .photo-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 0.5rem;
+    }
+    
+    .yearbook-cover img, 
+    .cover-lightbox-div img {
+        height: 200px;
+    }
+    
+    #yearbook-modal .instructions,
+    #page-modal .instructions {
+        font-size: 12px !important;
+        padding: 8px 15px !important;
+    }
+    
+    #page-modal button {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 20px !important;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--fy-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #544764;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--fy-purple-soft);
+}
+
+/* Final dark theme overrides */
+body {
+    background: var(--fy-bg);
+    color: var(--fy-text);
+}
+
+a {
+    color: #b993ff;
+}
+
+a:hover {
+    color: #d2bdff;
+}
+
+.bg-primary,
+.navbar.bg-primary {
+    background-color: var(--fy-purple) !important;
+}
+
+.bg-light,
+.page-heading,
+footer.bg-light {
+    background-color: var(--fy-surface) !important;
+    color: var(--fy-text);
+    border-color: var(--fy-border);
+}
+
+.card,
+.yearbook-card {
+    background-color: var(--fy-surface);
+    border: 1px solid var(--fy-border);
+    color: var(--fy-text);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+.text-muted,
+.card-text.text-muted,
+footer .text-muted {
+    color: var(--fy-muted) !important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: var(--fy-purple);
+    border-color: var(--fy-purple-hover);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    color: #fff;
+    background-color: var(--fy-purple-hover);
+    border-color: var(--fy-purple-soft);
+}
+
+.btn-outline-secondary {
+    color: var(--fy-text);
+    border-color: #6b5b80;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+    color: #fff;
+    background-color: var(--fy-purple);
+    border-color: var(--fy-purple-soft);
+}
+
+.btn-light {
+    color: var(--fy-bg);
+    background-color: #f1eaff;
+    border-color: #f1eaff;
+}
+
+.year-nav {
+    background: rgba(27, 23, 36, 0.96);
+    border: 1px solid var(--fy-border);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+.year-badge {
+    color: var(--fy-text);
+    background: var(--fy-surface-muted);
+    border: 1px solid transparent;
+}
+
+.year-badge:hover,
+.year-badge.active {
+    background: var(--fy-purple);
+    color: #fff;
+    border-color: var(--fy-purple-soft);
+}
+
+.photo-item-div,
+.photo-item {
+    background-color: var(--fy-surface);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.32);
+}
+
+.breadcrumb-item,
+.breadcrumb-item.active {
+    color: var(--fy-muted);
+}
+
+.breadcrumb-item a {
+    color: #c8adff;
+}
+
+.alert-info {
+    color: var(--fy-text);
+    background-color: var(--fy-surface-muted);
+    border-color: var(--fy-border);
+}
+
+.spinner-overlay {
+    background: rgba(17, 16, 24, 0.86);
+}
+
+.text-primary {
+    color: var(--fy-purple-soft) !important;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem var(--fy-bg), 0 0 0 0.25rem var(--fy-purple-soft);
+}
+
+.cover-lightbox-btn:focus,
+.cover-link:focus {
+    outline: 2px solid var(--fy-purple-soft);
+    outline-offset: 2px;
+}
+
+/* Dark theme */
+:root {
+    --fy-bg: #111018;
+    --fy-surface: #1b1724;
+    --fy-surface-muted: #241e30;
+    --fy-border: #3a3148;
+    --fy-text: #f4f0fb;
+    --fy-muted: #b8adca;
+    --fy-purple: #3f1d6b;
+    --fy-purple-hover: #5a2d91;
+    --fy-purple-soft: #7c4dcc;
+}
+
+body {
+    background: var(--fy-bg);
+    color: var(--fy-text);
+}
+
+a {
+    color: #b993ff;
+}
+
+a:hover {
+    color: #d2bdff;
+}
+
+.bg-primary,
+.navbar.bg-primary {
+    background-color: var(--fy-purple) !important;
+}
+
+.bg-light,
+.page-heading,
+footer.bg-light {
+    background-color: var(--fy-surface) !important;
+    color: var(--fy-text);
+    border-color: var(--fy-border);
+}
+
+.navbar {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-text {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.navbar-dark .navbar-brand,
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+    color: #fff;
+}
+
+.card,
+.yearbook-card {
+    background-color: var(--fy-surface);
+    border: 1px solid var(--fy-border);
+    color: var(--fy-text);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+.yearbook-card:hover {
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42);
+}
+
+.text-muted,
+.card-text.text-muted,
+footer .text-muted {
+    color: var(--fy-muted) !important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: var(--fy-purple);
+    border-color: var(--fy-purple-hover);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    color: #fff;
+    background-color: var(--fy-purple-hover);
+    border-color: var(--fy-purple-soft);
+}
+
+.btn-outline-secondary {
+    color: var(--fy-text);
+    border-color: #6b5b80;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+    color: #fff;
+    background-color: var(--fy-purple);
+    border-color: var(--fy-purple-soft);
+}
+
+.btn-light {
+    color: var(--fy-bg);
+    background-color: #f1eaff;
+    border-color: #f1eaff;
+}
+
+.year-nav {
+    background: rgba(27, 23, 36, 0.96);
+    border: 1px solid var(--fy-border);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+.year-badge {
+    color: var(--fy-text);
+    background: var(--fy-surface-muted);
+    border: 1px solid transparent;
+}
+
+.year-badge:hover,
+.year-badge.active {
+    background: var(--fy-purple);
+    color: #fff;
+    border-color: var(--fy-purple-soft);
+}
+
+.photo-item-div,
+.photo-item {
+    background-color: var(--fy-surface);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.32);
+}
+
+.breadcrumb-item,
+.breadcrumb-item.active {
+    color: var(--fy-muted);
+}
+
+.breadcrumb-item a {
+    color: #c8adff;
+}
+
+.alert-info {
+    color: var(--fy-text);
+    background-color: var(--fy-surface-muted);
+    border-color: var(--fy-border);
+}
+
+.spinner-overlay {
+    background: rgba(17, 16, 24, 0.86);
+}
+
+.text-primary {
+    color: var(--fy-purple-soft) !important;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem var(--fy-bg), 0 0 0 0.25rem var(--fy-purple-soft);
+}
+
+.cover-lightbox-btn:focus,
+.cover-link:focus {
+    outline: 2px solid var(--fy-purple-soft);
+    outline-offset: 2px;
+}
+
+/* Cover lightbox div styles for Index page */
+.cover-link,
+.cover-lightbox-div {
+    position: relative;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cover-link img,
+.cover-lightbox-div img {
+    transition: transform 0.3s ease;
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+    border: none;
+}
+
+.cover-link:hover img,
+.cover-lightbox-div:hover img {
+    transform: scale(1.05);
+}
+
+/* Photo item div styles for Browse page */
+.photo-item-div {
+    position: relative;
+    aspect-ratio: 3/4;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.photo-item-div:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+.photo-item-div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+    transition: transform 0.2s ease;
+}
+
+.photo-item-div:hover img {
+    transform: scale(1.05);
+}
+
+.lightbox-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(2px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.cover-link:hover .lightbox-overlay,
+.cover-link:focus .lightbox-overlay,
+.cover-lightbox-div:hover .lightbox-overlay,
+.photo-item-div:hover .lightbox-overlay {
+    opacity: 1;
+}
+
+/* Ensure no text selection or dragging on all lightbox elements */
+.cover-link,
+.cover-link *,
+.cover-lightbox-div,
+.cover-lightbox-div *,
+.photo-item-div,
+.photo-item-div * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
+/* Modal styles */
+#yearbook-modal, #page-modal {
+    -webkit-tap-highlight-color: transparent;
+}
+
+#yearbook-modal img, #page-modal img {
+    transition: transform 0.3s ease;
+}
+
+#yearbook-modal img:hover, #page-modal img:hover {
+    transform: scale(1.02);
+}
+
+/* Yearbook card enhancements */
+.yearbook-card {
+    transition: all 0.3s ease;
+    background-color: var(--fy-surface);
+    border: 1px solid var(--fy-border);
+    color: var(--fy-text);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+.yearbook-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42);
+}
+
+.yearbook-cover {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.yearbook-cover img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.yearbook-cover:hover img {
+    transform: scale(1.05);
+}
+
+.yearbook-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    padding: 1.5rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.yearbook-cover:hover .yearbook-overlay {
+    transform: translateY(0);
+}
+
+/* Photo Gallery Grid */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+/* Legacy photo-item styles for backward compatibility */
+.photo-item {
+    position: relative;
+    aspect-ratio: 3/4;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.photo-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+}
+
+.photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    user-select: none;
+}
+
+.photo-item:hover .photo-overlay,
+.photo-item-div:hover .photo-overlay {
+    opacity: 1;
+}
+
+/* Loading Spinner */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(17, 16, 24, 0.86);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
+/* Year Navigation */
+.year-nav {
+    background: rgba(27, 23, 36, 0.96);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    border: 1px solid var(--fy-border);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+.year-badge {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    margin: 0.2rem;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    color: var(--fy-text);
+    background: var(--fy-surface-muted);
+    border: 1px solid transparent;
+}
+
+.year-badge:hover, .year-badge.active {
+    background: var(--fy-purple);
+    color: white;
+    transform: scale(1.05);
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .photo-item img, 
+    .photo-item-div img, 
+    .cover-lightbox-div img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: optimize-contrast;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .photo-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 0.5rem;
+    }
+    
+    .yearbook-cover img, 
+    .cover-lightbox-div img {
+        height: 200px;
+    }
+    
+    #yearbook-modal .instructions,
+    #page-modal .instructions {
+        font-size: 12px !important;
+        padding: 8px 15px !important;
+    }
+    
+    #page-modal button {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 20px !important;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--fy-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #544764;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--fy-purple-soft);
+}

@@ -1,0 +1,63 @@
+# Alternative Dockerfile for Linux deployment - Simplified permissions
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS base
+WORKDIR /app
+EXPOSE 8387
+
+# Use the SDK image to build the application
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+# Copy project files
+COPY ["src/YearbookViewer/YearbookViewer.csproj", "YearbookViewer/"]
+
+# Restore dependencies
+RUN dotnet restore "YearbookViewer/YearbookViewer.csproj"
+
+# Copy source code
+COPY ["src/YearbookViewer/", "YearbookViewer/"]
+WORKDIR "/src/YearbookViewer"
+
+# Build the application
+RUN dotnet build "YearbookViewer.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# Publish the application
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "YearbookViewer.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# Final stage - runtime image
+FROM base AS final
+WORKDIR /app
+
+# Install necessary packages
+RUN apk add --no-cache \
+    libgdiplus-dev \
+    curl \
+    tzdata
+
+# Set timezone
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# Copy the published application
+COPY --from=publish /app/publish .
+
+# Create directories
+RUN mkdir -p /app/yearbooks /app/logs
+
+# Set environment variables
+ENV ASPNETCORE_URLS=http://+:8387
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
+ENV YearbookPath=/app/yearbooks
+
+# Run as root to avoid permission issues (less secure but functional)
+# In production, consider proper user setup
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8387/health || exit 1
+
+# Start the application
+ENTRYPOINT ["dotnet", "YearbookViewer.dll"]

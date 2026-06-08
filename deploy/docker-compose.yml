@@ -1,0 +1,53 @@
+# Explicitly name the project to avoid conflicts
+name: furman-yearbooks
+
+services:
+  furman-yearbooks-viewer:
+    build: 
+      context: ..
+      dockerfile: src/YearbookViewer/Dockerfile
+    container_name: furman-yearbooks-viewer
+    restart: always
+    env_file:
+      - .env.production
+    ports:
+      # Host nginx proxies to this local-only port.
+      - "127.0.0.1:8387:8387"
+    volumes:
+      - ${YEARBOOK_DATA_PATH:-../../YearbookData/yearbook-data}:/app/yearbooks:ro
+      - ../logs:/app/logs
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      # Bind to all interfaces inside container
+      - ASPNETCORE_URLS=http://*:8387
+      - YearbookPath=/app/yearbooks
+      - ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
+      - AllowedHosts=yearbooks.fu87.app;localhost;127.0.0.1
+      - Viewer__ClickZoomLevel=3.5
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__Microsoft.AspNetCore=Warning
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8387/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '1.0'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - furman-yearbooks-net
+
+networks:
+  furman-yearbooks-net:
+    driver: bridge

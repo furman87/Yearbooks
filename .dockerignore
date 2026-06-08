@@ -1,0 +1,41 @@
+# Build outputs
+**/bin/
+**/obj/
+**/out/
+**/publish/
+
+# IDE/editor state
+**/.vs/
+**/.vscode/
+**/.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Repo/deployment files not needed by the app image
+.git/
+.gitignore
+deploy/
+tools/
+Downloader/
+ThumbnailGenerator/
+Viewer/
+
+# Yearbook data stays outside the container image and is mounted at runtime.
+data/
+yearbook-data/
+YearbookData/
+Bonhomie-*/
+**/wwwroot/images/
+
+# Runtime/local files
+logs/
+**/*.log
+**/*.tmp
+**/*.temp
+
+# OS files
+desktop.ini
+Thumbs.db
+.DS_Store

@@ -1,0 +1,154 @@
+@page "/Browse/{year:int?}"
+@model BrowseModel
+@using YearbookViewer.Models
+@{
+    ViewData["Title"] = Model.Yearbook?.Title ?? "Browse Yearbooks";
+}
+
+@if (Model.Yearbook == null)
+{
+    <div class="container py-5">
+        <div class="text-center">
+            <h2>Yearbook Not Found</h2>
+            <p class="text-muted">The requested yearbook could not be found.</p>
+            <a href="/" class="btn btn-primary">
+                <i class="fas fa-arrow-left me-1"></i>
+                Back to Gallery
+            </a>
+        </div>
+    </div>
+}
+else
+{
+    <!-- Header -->
+    <div class="bg-light py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item">
+                                <a href="/"><i class="fas fa-home"></i> Gallery</a>
+                            </li>
+                            <li class="breadcrumb-item active">@Model.Yearbook.Title</li>
+                        </ol>
+                    </nav>
+                    <h1 class="h3 mb-1">@Model.Yearbook.Title</h1>
+                    <p class="text-muted mb-0">
+                        <i class="fas fa-images me-1"></i>
+                        @Model.Yearbook.TotalPages pages
+                    </p>
+                </div>
+                <div class="col-auto">
+                    <div class="btn-group">
+                        @if (Model.PreviousYear.HasValue)
+                        {
+                            <a href="/Browse/@Model.PreviousYear" class="btn btn-outline-secondary">
+                                <i class="fas fa-chevron-left"></i> @Model.PreviousYear
+                            </a>
+                        }
+                        @if (Model.NextYear.HasValue)
+                        {
+                            <a href="/Browse/@Model.NextYear" class="btn btn-outline-secondary">
+                                @Model.NextYear <i class="fas fa-chevron-right"></i>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Gallery -->
+    <div class="container py-4">
+        <div class="photo-grid pswp-gallery" id="photo-gallery">
+            @foreach (var item in Model.Yearbook.Pages)
+            {
+                <a href="/api/yearbook/@Model.Yearbook.Year/image/@Uri.EscapeDataString(item.FileName)"
+                    data-pswp-width="@(item.Width > 0 ? item.Width : 900)" 
+                    data-pswp-height="@(item.Height > 0 ? item.Height : 1200)" 
+                    class="photo-item-div"
+                    data-image-url="/api/yearbook/@Model.Yearbook.Year/image/@Uri.EscapeDataString(item.FileName)"
+                    data-page-name="@item.DisplayName"
+                    data-year="@Model.Yearbook.Year"
+                    data-title="@Model.Yearbook.Title"
+                    style="cursor: pointer;">
+                    <img src="/api/yearbook/@Model.Yearbook.Year/thumbnail/@Uri.EscapeDataString(item.FileName)" 
+                         alt="@item.DisplayName" 
+                         loading="lazy" 
+                         draggable="false" />
+                    <div class="photo-overlay">
+                        <i class="fas fa-expand me-1"></i>
+                        @item.DisplayName
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Year Navigation Footer -->
+    <div class="bg-light py-3">
+        <div class="container">
+            <div class="text-center">
+                <div class="year-nav d-inline-block">
+                    <strong class="me-3">Other Years:</strong>
+                    @foreach (var year in Model.AvailableYears)
+                    {
+                        if (year == Model.Yearbook.Year)
+                        {
+                            <span class="year-badge active">@year</span>
+                        }
+                        else
+                        {
+                            <a href="/Browse/@year" class="year-badge">@year</a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        const lightbox = new PhotoSwipeLightbox({
+            gallery: '#photo-gallery',
+            children: 'a',
+            initialZoomLevel: 'fit',
+            showHideAnimationType: 'none',
+            secondaryZoomLevel: @Model.ClickZoomLevelValue,
+            maxZoomLevel: @Model.ClickZoomLevelValue,
+            pswpModule: PhotoSwipe // () => import('js/photoswipe.esm.js')
+        });
+        lightbox.init();
+    </script>
+
+    <script>
+        console.log('Browse page scripts loaded');
+        
+        // Simple keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (document.querySelector('.pswp--open')) return;
+
+            switch(e.key) {
+                case 'ArrowLeft':
+                    @if (Model.PreviousYear.HasValue)
+                    {
+                        <text>window.location.href = '/Browse/@Model.PreviousYear';</text>
+                    }
+                    break;
+                case 'ArrowRight':
+                    @if (Model.NextYear.HasValue)
+                    {
+                        <text>window.location.href = '/Browse/@Model.NextYear';</text>
+                    }
+                    break;
+                case 'Escape':
+                    window.location.href = '/';
+                    break;
+            }
+        });
+
+        console.log('Browse page navigation initialized');
+    </script>
+}

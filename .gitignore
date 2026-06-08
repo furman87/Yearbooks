@@ -1,0 +1,43 @@
+# Build output
+bin/
+obj/
+out/
+publish/
+TestResults/
+
+# IDE/editor state
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Runtime/local files
+logs/
+*.log
+*.tmp
+*.temp
+
+# Local and production environment files
+.env
+.env.*
+deploy/.env.production
+!deploy/.env.example
+
+# Yearbook data must stay outside the code repo.
+data/
+yearbook-data/
+YearbookData/
+Bonhomie-*/
+**/wwwroot/images/
+
+# OS files
+desktop.ini
+Thumbs.db
+.DS_Store
+
+# Packages
+packages/
+*.nupkg

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ThumbnailGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "D:\\Dev\\FurmanYearbook\\Viewer\\yearbook-data\\"
+    }
+  }
+}

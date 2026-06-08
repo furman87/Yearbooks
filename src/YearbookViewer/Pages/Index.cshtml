@@ -1,0 +1,135 @@
+@page
+@model IndexModel
+@using YearbookViewer.Models
+@{
+    ViewData["Title"] = "Yearbook Gallery";
+}
+
+<div class="page-heading bg-light py-4 mb-4">
+    <div class="container">
+        <h1 class="h2 mb-1">
+            <i class="fas fa-book-open me-2"></i>
+            Furman University Yearbooks
+        </h1>
+        <p class="text-muted mb-0">Digital Archive Collection</p>
+    </div>
+</div>
+
+@if (!Model.Gallery.Yearbooks.Any())
+{
+    <div class="container">
+        <div class="alert alert-info text-center">
+            <h4><i class="fas fa-info-circle me-2"></i>No Yearbooks Found</h4>
+            <p>Make sure the yearbook downloader has run successfully and the Bonhomie-* directories contain image files.</p>
+            <p><strong>Expected location:</strong> <code>@Model.YearbookPath</code></p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <!-- Year Navigation -->
+        <div class="text-center mb-4">
+            <div class="year-nav d-inline-block">
+                <strong class="me-3">Available Years:</strong>
+                @foreach (var year in Model.AvailableYears)
+                {
+                    <a href="#year-@year" class="year-badge" data-year="@year">@year</a>
+                }
+            </div>
+        </div>
+
+        <!-- Yearbook Grid -->
+        <div class="row g-4" id="yearbook-gallery">
+            @foreach (var yearbook in Model.Gallery.Yearbooks.OrderBy(y => y.Year))
+            {
+                <div class="col-lg-4 col-md-6" id="year-@yearbook.Year">
+                    <div class="card yearbook-card h-100">
+                        <div class="yearbook-cover">
+                            @if (yearbook.Pages.Any())
+                            {
+                                <a href="/Browse/@yearbook.Year" class="cover-link" aria-label="Browse @yearbook.Title">
+                                    <img src="/api/yearbook/@yearbook.Year/image/@Uri.EscapeDataString(yearbook.Pages.First().FileName)?w=400&h=300" 
+                                         alt="@yearbook.Title Cover" 
+                                         class="card-img-top" 
+                                         draggable="false" />
+                                    <div class="lightbox-overlay">
+                                        <i class="fas fa-book-open text-white" style="font-size: 2rem;"></i>
+                                    </div>
+                                </a>
+                            }
+                            else
+                            {
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                                    <i class="fas fa-book text-muted" style="font-size: 3rem;"></i>
+                                </div>
+                            }
+                            <div class="yearbook-overlay">
+                                <h5 class="mb-2">@yearbook.Title</h5>
+                                <p class="mb-2">
+                                    <i class="fas fa-images me-1"></i>
+                                    @yearbook.TotalPages pages
+                                </p>
+                                <span class="btn btn-light btn-sm pe-none">
+                                    <i class="fas fa-eye me-1"></i>
+                                    View Yearbook
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@yearbook.Title</h5>
+                            <p class="card-text text-muted">
+                                <i class="fas fa-calendar me-1"></i>
+                                @yearbook.Year • @yearbook.TotalPages pages
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="/Browse/@yearbook.Year" class="btn btn-primary">
+                                    <i class="fas fa-book-open me-1"></i>
+                                    Browse
+                                </a>
+                                <small class="text-muted">
+                                    <i class="fas fa-download me-1"></i>
+                                    Available
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        console.log('Index page scripts loaded');
+        
+        // Simple year navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Year badges smooth scrolling
+            document.querySelectorAll('.year-badge').forEach(badge => {
+                badge.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        document.querySelectorAll('.year-badge').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+            
+            // Loading spinner for browse buttons only
+            document.querySelectorAll('a[href^="/Browse/"]').forEach(link => {
+                link.addEventListener('click', function() {
+                    const spinner = document.createElement('div');
+                    spinner.className = 'spinner-overlay';
+                    spinner.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>';
+                    document.body.appendChild(spinner);
+                });
+            });
+            
+            console.log('Year navigation and loading spinners initialized');
+        });
+    </script>
+}
