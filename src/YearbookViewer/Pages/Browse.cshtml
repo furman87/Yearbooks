@@ -61,6 +61,15 @@ else
 
     <!-- Photo Gallery -->
     <div class="container py-4">
+        <form method="get" asp-page="/Search" class="search-panel mb-4">
+            <input type="hidden" name="year" value="@Model.Yearbook.Year" />
+            <div class="input-group input-group-lg">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <input class="form-control" type="search" name="query" placeholder="Search @Model.Yearbook.Title" />
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+
         <div class="photo-grid pswp-gallery" id="photo-gallery">
             @foreach (var item in Model.Yearbook.Pages)
             {
@@ -72,6 +81,7 @@ else
                     data-page-name="@item.DisplayName"
                     data-year="@Model.Yearbook.Year"
                     data-title="@Model.Yearbook.Title"
+                    data-file-name="@item.FileName"
                     style="cursor: pointer;">
                     <img src="/api/yearbook/@Model.Yearbook.Year/thumbnail/@Uri.EscapeDataString(item.FileName)" 
                          alt="@item.DisplayName" 
@@ -121,6 +131,17 @@ else
             pswpModule: PhotoSwipe // () => import('js/photoswipe.esm.js')
         });
         lightbox.init();
+
+        const requestedPage = new URLSearchParams(window.location.search).get('page');
+        if (requestedPage) {
+            window.addEventListener('load', () => {
+                const items = Array.from(document.querySelectorAll('#photo-gallery a'));
+                const index = items.findIndex(item => item.dataset.fileName && item.dataset.fileName.toLowerCase() === requestedPage.toLowerCase());
+                if (index >= 0) {
+                    lightbox.loadAndOpen(index);
+                }
+            });
+        }
     </script>
 
     <script>

@@ -18,6 +18,7 @@ builder.Services.AddImageSharp();
 
 // Add custom services
 builder.Services.AddSingleton<YearbookService>();
+builder.Services.AddSingleton<YearbookSearchService>();
 
 // Configure CORS for API access
 builder.Services.AddCors(options =>

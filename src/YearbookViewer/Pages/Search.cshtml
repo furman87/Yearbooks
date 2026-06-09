@@ -1,0 +1,88 @@
+@page
+@model SearchModel
+@{
+    ViewData["Title"] = "Search";
+    var scopeTitle = Model.ScopedYearbook?.Title ?? "All Yearbooks";
+}
+
+<div class="page-heading bg-light py-4 mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item">
+                    <a href="/"><i class="fas fa-home"></i> Gallery</a>
+                </li>
+                @if (Model.ScopedYearbook != null)
+                {
+                    <li class="breadcrumb-item">
+                        <a href="/Browse/@Model.ScopedYearbook.Year">@Model.ScopedYearbook.Title</a>
+                    </li>
+                }
+                <li class="breadcrumb-item active">Search</li>
+            </ol>
+        </nav>
+        <h1 class="h2 mb-1">
+            <i class="fas fa-search me-2"></i>
+            Search @scopeTitle
+        </h1>
+        <p class="text-muted mb-0">OCR text results remain here while you open matching pages.</p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <form method="get" asp-page="/Search" class="search-panel mb-4">
+        @if (Model.Search.Year.HasValue)
+        {
+            <input type="hidden" name="year" value="@Model.Search.Year.Value" />
+        }
+        <div class="input-group input-group-lg">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
+            <input class="form-control" type="search" name="query" value="@Model.Search.Query" placeholder="Search OCR text" />
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+
+    @if (!Model.Search.HasQuery)
+    {
+        <div class="empty-search-state">
+            <i class="fas fa-file-lines mb-3"></i>
+            <h2 class="h4">Enter a search term</h2>
+            <p class="text-muted mb-0">Search looks through OCR text files generated for yearbook pages.</p>
+        </div>
+    }
+    else
+    {
+        <div class="search-summary mb-3">
+            <strong>@Model.Search.Results.Count</strong> result@(Model.Search.Results.Count == 1 ? "" : "s")
+            for <strong>@Model.Search.Query</strong>
+            in @scopeTitle
+        </div>
+
+        @if (!Model.Search.Results.Any())
+        {
+            <div class="empty-search-state">
+                <i class="fas fa-magnifying-glass mb-3"></i>
+                <h2 class="h4">No matches found</h2>
+                <p class="text-muted mb-0">Try a shorter term, a different spelling, or search all yearbooks.</p>
+            </div>
+        }
+        else
+        {
+            <div class="search-results">
+                @foreach (var result in Model.Search.Results)
+                {
+                    <a class="search-result" href="/Browse/@result.Year?page=@Uri.EscapeDataString(result.FileName)" target="_blank" rel="noopener">
+                        <img src="/api/yearbook/@result.Year/thumbnail/@Uri.EscapeDataString(result.FileName)" alt="Page @result.PageNumber thumbnail" loading="lazy" />
+                        <span class="search-result-body">
+                            <span class="search-result-title">@result.YearbookTitle, Page @result.PageNumber</span>
+                            <span class="search-result-snippet">@result.Snippet</span>
+                        </span>
+                        <span class="search-result-action">
+                            <i class="fas fa-up-right-from-square"></i>
+                        </span>
+                    </a>
+                }
+            </div>
+        }
+    }
+</div>

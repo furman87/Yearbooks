@@ -26,3 +26,21 @@ public class YearbookGallery
     public int TotalYearbooks => Yearbooks.Count;
     public int TotalPages => Yearbooks.Sum(y => y.TotalPages);
 }
+
+public class YearbookSearchResult
+{
+    public int Year { get; set; }
+    public string YearbookTitle { get; set; } = "";
+    public int PageNumber { get; set; }
+    public string FileName { get; set; } = "";
+    public string Snippet { get; set; } = "";
+}
+
+public class YearbookSearchResponse
+{
+    public string Query { get; set; } = "";
+    public int? Year { get; set; }
+    public List<YearbookSearchResult> Results { get; set; } = new();
+    public int SearchedYearbooks { get; set; }
+    public bool HasQuery => !string.IsNullOrWhiteSpace(Query);
+}

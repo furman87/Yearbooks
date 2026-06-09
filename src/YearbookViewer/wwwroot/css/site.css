@@ -410,6 +410,118 @@ body {
     background: var(--fy-purple-soft);
 }
 
+/* Search */
+.search-panel {
+    background: var(--fy-surface);
+    border: 1px solid var(--fy-border);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+}
+
+.search-panel .input-group {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.search-panel .form-control,
+.search-panel .input-group-text {
+    color: var(--fy-text);
+    background-color: var(--fy-surface-muted);
+    border-color: var(--fy-border);
+}
+
+.search-panel .form-control::placeholder {
+    color: var(--fy-muted);
+}
+
+.search-summary {
+    color: var(--fy-muted);
+}
+
+.search-results {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.search-result {
+    display: grid;
+    grid-template-columns: 74px minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    color: var(--fy-text);
+    background: var(--fy-surface);
+    border: 1px solid var(--fy-border);
+    border-radius: 8px;
+    padding: 0.75rem;
+    text-decoration: none;
+    transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+
+.search-result:hover,
+.search-result:focus {
+    color: var(--fy-text);
+    background: var(--fy-surface-muted);
+    border-color: var(--fy-purple-soft);
+    transform: translateY(-1px);
+}
+
+.search-result img {
+    width: 74px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid var(--fy-border);
+}
+
+.search-result-body {
+    display: grid;
+    gap: 0.35rem;
+    min-width: 0;
+}
+
+.search-result-title {
+    font-weight: 700;
+}
+
+.search-result-snippet {
+    color: var(--fy-muted);
+    line-height: 1.45;
+}
+
+.search-result-action {
+    color: var(--fy-purple-soft);
+}
+
+.empty-search-state {
+    color: var(--fy-text);
+    background: var(--fy-surface);
+    border: 1px solid var(--fy-border);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.empty-search-state .fas {
+    color: var(--fy-purple-soft);
+    font-size: 2rem;
+}
+
+@media (max-width: 576px) {
+    .search-result {
+        grid-template-columns: 58px minmax(0, 1fr);
+    }
+
+    .search-result img {
+        width: 58px;
+        height: 76px;
+    }
+
+    .search-result-action {
+        display: none;
+    }
+}
+
 /* Final dark theme overrides */
 body {
     background: var(--fy-bg);
