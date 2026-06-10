@@ -121,13 +121,14 @@ else
 
 @section Scripts {
     <script>
+        const clickZoomMultiplier = @Model.ClickZoomLevelValue;
         const lightbox = new PhotoSwipeLightbox({
             gallery: '#photo-gallery',
             children: 'a',
             initialZoomLevel: 'fit',
             showHideAnimationType: 'none',
-            secondaryZoomLevel: @Model.ClickZoomLevelValue,
-            maxZoomLevel: @Model.ClickZoomLevelValue,
+            secondaryZoomLevel: (zoomLevelObject) => zoomLevelObject.fit * clickZoomMultiplier,
+            maxZoomLevel: (zoomLevelObject) => zoomLevelObject.fit * clickZoomMultiplier,
             pswpModule: PhotoSwipe // () => import('js/photoswipe.esm.js')
         });
         lightbox.init();

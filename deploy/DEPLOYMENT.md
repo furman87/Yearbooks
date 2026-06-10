@@ -139,7 +139,7 @@ Edit `/opt/furman-yearbooks/deploy/.env.production`:
 ```text
 YEARBOOK_DATA_PATH=/opt/yearbook-data
 AllowedHosts=yearbooks.fu87.app;localhost;127.0.0.1
-Viewer__ClickZoomLevel=3.5
+Viewer__ClickZoomLevel=1.75
 ```
 
 `YEARBOOK_DATA_PATH` is used by Docker Compose for the host bind mount. `YearbookPath=/app/yearbooks` is the path inside the container.

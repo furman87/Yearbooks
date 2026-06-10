@@ -23,7 +23,6 @@ services:
       - YearbookPath=/app/yearbooks
       - ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
       - AllowedHosts=yearbooks.fu87.app;localhost;127.0.0.1
-      - Viewer__ClickZoomLevel=3.5
       - Logging__LogLevel__Default=Information
       - Logging__LogLevel__Microsoft.AspNetCore=Warning
     healthcheck:
