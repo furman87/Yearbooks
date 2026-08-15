@@ -23,8 +23,10 @@ public class BrowseModel : PageModel
     public List<int> AvailableYears { get; private set; } = new();
     public int? PreviousYear { get; private set; }
     public int? NextYear { get; private set; }
-    public double ClickZoomLevel { get; private set; } = 1.75;
-    public string ClickZoomLevelValue => ClickZoomLevel.ToString("0.###", CultureInfo.InvariantCulture);
+    public double DesktopClickZoomLevel { get; private set; } = 1.75;
+    public double MobileClickZoomLevel { get; private set; } = 2.25;
+    public string DesktopClickZoomLevelValue => DesktopClickZoomLevel.ToString("0.###", CultureInfo.InvariantCulture);
+    public string MobileClickZoomLevelValue => MobileClickZoomLevel.ToString("0.###", CultureInfo.InvariantCulture);
 
     public IActionResult OnGet(int? year)
     {
@@ -35,7 +37,9 @@ public class BrowseModel : PageModel
 
         try
         {
-            ClickZoomLevel = Math.Clamp(_configuration.GetValue("Viewer:ClickZoomLevel", 1.75), 1.0, 8.0);
+            var fallbackClickZoomLevel = _configuration.GetValue("Viewer:ClickZoomLevel", 1.75);
+            DesktopClickZoomLevel = Math.Clamp(_configuration.GetValue("Viewer:DesktopClickZoomLevel", fallbackClickZoomLevel), 1.0, 8.0);
+            MobileClickZoomLevel = Math.Clamp(_configuration.GetValue("Viewer:MobileClickZoomLevel", fallbackClickZoomLevel), 1.0, 8.0);
             AvailableYears = _yearbookService.GetAvailableYears();
             Yearbook = _yearbookService.GetYearbook(year.Value);
 
@@ -45,7 +49,6 @@ public class BrowseModel : PageModel
                 return Page();
             }
 
-            // Calculate navigation years
             var currentIndex = AvailableYears.IndexOf(year.Value);
             if (currentIndex > 0)
             {

@@ -140,7 +140,11 @@ Edit `/opt/furman-yearbooks/deploy/.env.production`:
 YEARBOOK_DATA_PATH=/opt/yearbook-data
 AllowedHosts=yearbooks.fu87.app;localhost;127.0.0.1
 Viewer__ClickZoomLevel=1.75
+Viewer__DesktopClickZoomLevel=1.75
+Viewer__MobileClickZoomLevel=2.25
 ```
+
+`Viewer__ClickZoomLevel` remains as a fallback. Use `Viewer__DesktopClickZoomLevel` and `Viewer__MobileClickZoomLevel` when you want separate click-zoom behavior by device size.
 
 `YEARBOOK_DATA_PATH` is used by Docker Compose for the host bind mount. `YearbookPath=/app/yearbooks` is the path inside the container.
 
@@ -201,7 +205,7 @@ docker compose --env-file .env.production up -d --build
 docker compose logs -f furman-yearbooks-viewer
 ```
 
-Changing only `Viewer__ClickZoomLevel` or another environment value does not require rebuilding:
+Changing only `Viewer__DesktopClickZoomLevel`, `Viewer__MobileClickZoomLevel`, or another environment value does not require rebuilding:
 
 ```bash
 cd /opt/furman-yearbooks/deploy

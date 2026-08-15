@@ -121,14 +121,19 @@ else
 
 @section Scripts {
     <script>
-        const clickZoomMultiplier = @Model.ClickZoomLevelValue;
+        const desktopClickZoomMultiplier = @Model.DesktopClickZoomLevelValue;
+        const mobileClickZoomMultiplier = @Model.MobileClickZoomLevelValue;
+        const getClickZoomMultiplier = () => window.matchMedia('(max-width: 768px)').matches
+            ? mobileClickZoomMultiplier
+            : desktopClickZoomMultiplier;
+
         const lightbox = new PhotoSwipeLightbox({
             gallery: '#photo-gallery',
             children: 'a',
             initialZoomLevel: 'fit',
             showHideAnimationType: 'none',
-            secondaryZoomLevel: (zoomLevelObject) => zoomLevelObject.fit * clickZoomMultiplier,
-            maxZoomLevel: (zoomLevelObject) => zoomLevelObject.fit * clickZoomMultiplier,
+            secondaryZoomLevel: (zoomLevelObject) => zoomLevelObject.fit * getClickZoomMultiplier(),
+            maxZoomLevel: (zoomLevelObject) => zoomLevelObject.fit * getClickZoomMultiplier(),
             pswpModule: PhotoSwipe // () => import('js/photoswipe.esm.js')
         });
         lightbox.init();
